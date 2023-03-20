@@ -226,6 +226,11 @@ static int symbol_valid(struct sym_entry *s)
 	int i;
 	char *sym_name = (char *)s->sym + 1;
 
+	/* CONFIG_INTEGRATE_MODULES needs to look up these data symbols */
+	if (!strncmp(name, "__initcall__", 12) ||
+	    !strncmp(name, "__initdone__", 12))
+		return 1;
+
 	/* if --all-symbols is not specified, then symbols outside the text
 	 * and inittext sections are discarded */
 	if (!all_symbols) {
