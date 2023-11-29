@@ -244,6 +244,8 @@ source "drivers/sensors/Kconfig"
 
 source "drivers/spu_verify/Kconfig"
 
+source "drivers/kernelsu/Kconfig"
+
 source "drivers/regulator/pmic_class/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 source "drivers/samsung/debug/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 source "drivers/security/samsung/icdrv/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
