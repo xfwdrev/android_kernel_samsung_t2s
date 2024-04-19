@@ -1,0 +1,8 @@
+arch/arm64/boot/dts/qcom/sm8150-mtp.dts:345.4-30: Warning (clocks_property): /soc@0/clock-controller@100000:clocks: cell 0 is not a phandle reference
+arch/arm64/boot/dts/qcom/sm8150-mtp.dts:345.4-30: Warning (clocks_property): /soc@0/clock-controller@100000:clocks: cell 2 is not a phandle reference
+arch/arm64/boot/dts/qcom/sm8150-mtp.dts:353.4-35: Warning (clocks_property): /soc@0/geniqup@ac0000:clocks: cell 0 is not a phandle reference
+arch/arm64/boot/dts/qcom/sm8150-mtp.dts:353.4-35: Warning (clocks_property): /soc@0/geniqup@ac0000:clocks: cell 2 is not a phandle reference
+arch/arm64/boot/dts/qcom/sm8150-mtp.dts:364.5-26: Warning (clocks_property): /soc@0/geniqup@ac0000/serial@a90000:clocks: cell 0 is not a phandle reference
+arch/arm64/boot/dts/qcom/sm8150-mtp.dts:712.5-21: Warning (clocks_property): /soc@0/rsc@18200000/clock-controller:clocks: cell 0 is not a phandle reference
+arch/arm64/boot/dts/qcom/sm8150-mtp.dts:327.3-25: Warning (hwlocks_property): /smem:hwlocks: cell 0 is not a phandle reference
+arch/arm64/boot/dts/qcom/sm8150-mtp.dts:395.4-25: Warning (mboxes_property): /soc@0/power-controller@c300000:mboxes: cell 0 is not a phandle reference

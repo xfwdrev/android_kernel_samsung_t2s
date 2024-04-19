@@ -1,0 +1,3 @@
+arch/arm64/boot/dts/qcom/msm8994-angler-rev-101.dts:175.4-35: Warning (clocks_property): /soc/serial@f991e000:clocks: cell 0 is not a phandle reference
+arch/arm64/boot/dts/qcom/msm8994-angler-rev-101.dts:175.4-35: Warning (clocks_property): /soc/serial@f991e000:clocks: cell 2 is not a phandle reference
+arch/arm64/boot/dts/qcom/msm8994-angler-rev-101.dts:239.3-25: Warning (hwlocks_property): /qcom,smem@6a00000:hwlocks: cell 0 is not a phandle reference

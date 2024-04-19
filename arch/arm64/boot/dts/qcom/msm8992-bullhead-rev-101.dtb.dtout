@@ -1,0 +1,5 @@
+arch/arm64/boot/dts/qcom/msm8992-bullhead-rev-101.dts:287.4-35: Warning (clocks_property): /soc/serial@f991e000:clocks: cell 0 is not a phandle reference
+arch/arm64/boot/dts/qcom/msm8992-bullhead-rev-101.dts:287.4-35: Warning (clocks_property): /soc/serial@f991e000:clocks: cell 2 is not a phandle reference
+arch/arm64/boot/dts/qcom/msm8992-bullhead-rev-101.dts:309.4-35: Warning (clocks_property): /soc/mmc@f9824900:clocks: cell 0 is not a phandle reference
+arch/arm64/boot/dts/qcom/msm8992-bullhead-rev-101.dts:309.4-35: Warning (clocks_property): /soc/mmc@f9824900:clocks: cell 2 is not a phandle reference
+arch/arm64/boot/dts/qcom/msm8992-bullhead-rev-101.dts:86.3-25: Warning (hwlocks_property): /smem:hwlocks: cell 0 is not a phandle reference
