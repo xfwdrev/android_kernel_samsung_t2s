@@ -142,22 +142,18 @@ void tracing_mark_write(struct decon_device *decon, char id, char *str1, int val
 	case 'B': /* B : Begin */
 		snprintf(buf, DECON_TRACE_BUF_SIZE, "B|%d|%s",
 				decon->systrace.pid, str1);
-//		trace_tracing_mark_write(buf);
 		break;
 	case 'E': /* E : End */
 		strcpy(buf, "E");
-//		trace_tracing_mark_write(buf);
 		break;
 	case 'C': /* C : Category */
 		snprintf(buf, DECON_TRACE_BUF_SIZE,
 				"C|%d|%s|%d", decon->systrace.pid, str1, value);
-//		trace_tracing_mark_write(buf);
 		break;
 	default:
 		decon_err("%s:argument fail\n", __func__);
 		return;
 	}
-	trace_printk(buf);
 }
 
 static void decon_dump_using_dpp(struct decon_device *decon)
