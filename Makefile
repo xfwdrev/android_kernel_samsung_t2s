@@ -1425,7 +1425,7 @@ modules: $(if $(KBUILD_BUILTIN),vmlinux) modules.order modules.builtin
 ifdef CONFIG_EXYNOS_FMP_FIPS
 	@$(kecho) ' FIPS Generate and embed HMAC ';
 	@$(srctree)/scripts/fmp/IntegrityCheckProvider.py \
-		drivers/crypto/fmp/fmp-core.ko drivers/crypto/fmp/fips140_ic_support.c
+		drivers/crypto/fmp/fmp-core.ko $(srctree)/drivers/crypto/fmp/fips140_ic_support.c
 endif
 
 modules.order: descend

@@ -58,7 +58,6 @@ ARCH=arm64 \
 CROSS_COMPILE=aarch64-linux-androidkernel- \
 CROSS_COMPILE_COMPAT=arm-linux-androidkernel- \
 CLANG_TRIPLE=aarch64-linux-gnu- \
-READELF=$CLANG_DIR/bin/llvm-readelf \
 O=out \
 "
 
