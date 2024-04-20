@@ -17,7 +17,6 @@ Options:
     -m, --model [value]    Specify the model code of the phone
     -k, --ksu [y/N]        Include KernelSU
     -r, --recovery [y/N]   Compile kernel for an Android Recovery
-    -c, --ccache [y/N]     Use ccache to cache compilations
 EOF
 }
 
@@ -62,10 +61,10 @@ O=out \
 "
 
 # Define specific variables
-KERNEL_DEFCONFIG=exynos2100-t2sxxx_defconfig
+# Only t2s for now
 case $MODEL in
 t2s)
-    BOARD=XXXXXXXXXXXXXXX
+    KERNEL_DEFCONFIG=exynos2100-t2sxxx_defconfig
 ;;
 *)
     unset_flags
@@ -103,27 +102,19 @@ echo "-----------------------------------------------"
 echo "Building kernel using "$KERNEL_DEFCONFIG""
 echo "Generating configuration file..."
 echo "-----------------------------------------------"
-make ${MAKE_ARGS} -j$CORES $KERNEL_DEFCONFIG extreme.config $KSU
+make ${MAKE_ARGS} -j$CORES $KERNEL_DEFCONFIG extreme.config $KSU || abort
 
 echo "Building kernel..."
 echo "-----------------------------------------------"
-make ${MAKE_ARGS} -j$CORES
+make ${MAKE_ARGS} -j$CORES || abort
 
 # Define constant variables
-DTB_PATH=build/out/$MODEL/dtb.img
 KERNEL_PATH=build/out/$MODEL/Image
-KERNEL_OFFSET=0x00008000
-DTB_OFFSET=0x00000000
-RAMDISK_OFFSET=0x01000000
-SECOND_OFFSET=0xF0000000
-TAGS_OFFSET=0x00000100
-BASE=0x10000000
-CMDLINE='androidboot.hardware=exynos990 loop.max_part=7'
-HASHTYPE=sha1
-HEADER_VERSION=2
+CMDLINE='loop.max_part=7'
+HEADER_VERSION=3
 OS_PATCH_LEVEL=2024-04
 OS_VERSION=14.0.0
-PAGESIZE=2048
+PAGESIZE=4096
 RAMDISK=build/out/$MODEL/ramdisk.cpio.gz
 OUTPUT_FILE=build/out/$MODEL/boot.img
 
@@ -131,54 +122,54 @@ OUTPUT_FILE=build/out/$MODEL/boot.img
 # Copy kernel to build
 cp out/arch/arm64/boot/Image build/out/$MODEL
 
+# No dtb for now, it's in vendor_boot, GKI moment
 # Build dtb
-echo "Building common exynos9830 Device Tree Blob Image..."
-echo "-----------------------------------------------"
+#echo "Building common exynos9830 Device Tree Blob Image..."
+#echo "-----------------------------------------------"
 #./toolchain/mkdtimg cfg_create build/out/$MODEL/dtb.img build/dtconfigs/exynos9830.cfg -d out/arch/arm64/boot/dts/exynos
 
 # Build dtbo
-echo "Building Device Tree Blob Output Image for "$MODEL"..."
-echo "-----------------------------------------------"
+#echo "Building Device Tree Blob Output Image for "$MODEL"..."
+#echo "-----------------------------------------------"
 #./toolchain/mkdtimg cfg_create build/out/$MODEL/dtbo.img build/dtconfigs/$MODEL.cfg -d out/arch/arm64/boot/dts/samsung
 
 if [ -z "$RECOVERY" ]; then
     # Build ramdisk
     echo "Building RAMDisk..."
     echo "-----------------------------------------------"
-    #pushd build/ramdisk > /dev/null
-    #find . ! -name . | LC_ALL=C sort | cpio -o -H newc -R root:root | gzip > ../out/$MODEL/ramdisk.cpio.gz || abort
-    #popd > /dev/null
+    pushd build/ramdisk > /dev/null
+    find . ! -name . | LC_ALL=C sort | cpio -o -H newc -R root:root | gzip > ../out/$MODEL/ramdisk.cpio.gz || abort
+    popd > /dev/null
     echo "-----------------------------------------------"
 
     # Create boot image
     echo "Creating boot image..."
     echo "-----------------------------------------------"
-    #./toolchain/mkbootimg --base $BASE --board $BOARD --cmdline "$CMDLINE" --dtb $DTB_PATH \
-    #--dtb_offset $DTB_OFFSET --hashtype $HASHTYPE --header_version $HEADER_VERSION --kernel $KERNEL_PATH \
-    #--kernel_offset $KERNEL_OFFSET --os_patch_level $OS_PATCH_LEVEL --os_version $OS_VERSION --pagesize $PAGESIZE \
-    #--ramdisk $RAMDISK --ramdisk_offset $RAMDISK_OFFSET \
-    #--second_offset $SECOND_OFFSET --tags_offset $TAGS_OFFSET -o $OUTPUT_FILE || abort
+    ./toolchain/mkbootimg --cmdline "$CMDLINE" --header_version $HEADER_VERSION \
+    --kernel $KERNEL_PATH --os_patch_level $OS_PATCH_LEVEL --os_version $OS_VERSION \
+    --ramdisk $RAMDISK \
+    --pagesize $PAGESIZE -o $OUTPUT_FILE || abort
 
     # Build zip
     echo "Building zip..."
     echo "-----------------------------------------------"
-    #cp build/out/$MODEL/boot.img build/out/$MODEL/zip/files/boot.img
+    cp build/out/$MODEL/boot.img build/out/$MODEL/zip/files/boot.img
     #cp build/out/$MODEL/dtbo.img build/out/$MODEL/zip/files/dtbo.img
-    #cp build/update-binary build/out/$MODEL/zip/META-INF/com/google/android/update-binary
-    #cp build/updater-script build/out/$MODEL/zip/META-INF/com/google/android/updater-script
+    cp build/update-binary build/out/$MODEL/zip/META-INF/com/google/android/update-binary
+    cp build/updater-script build/out/$MODEL/zip/META-INF/com/google/android/updater-script
 
-    #version=$(grep -o 'CONFIG_LOCALVERSION="[^"]*"' arch/arm64/configs/extreme.config | cut -d '"' -f 2)
-    #version=${version:1}
-    #pushd build/out/$MODEL/zip > /dev/null
-    #DATE=`date +"%d-%m-%Y_%H-%M-%S"`
+    version=$(grep -o 'CONFIG_LOCALVERSION="[^"]*"' arch/arm64/configs/extreme.config | cut -d '"' -f 2)
+    version=${version:1}
+    pushd build/out/$MODEL/zip > /dev/null
+    DATE=`date +"%d-%m-%Y_%H-%M-%S"`
 
-    #if [[ $KSU_OPTION -eq "y" ]]; then
-    #    NAME="$version"_"$MODEL"_UNOFFICIAL_KSU_"$DATE".zip
-    #else
-    #    NAME="$version"_"$MODEL"_UNOFFICIAL_"$DATE".zip
-    #fi
-    #zip -r -qq ../"$NAME" .
-    #popd > /dev/null
+    if [[ $KSU_OPTION -eq "y" ]]; then
+        NAME="$version"_"$MODEL"_UNOFFICIAL_KSU_"$DATE".zip
+    else
+        NAME="$version"_"$MODEL"_UNOFFICIAL_"$DATE".zip
+    fi
+    zip -r -qq ../"$NAME" .
+    popd > /dev/null
 fi
 
 popd > /dev/null
