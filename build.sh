@@ -52,6 +52,7 @@ PATH=$PWD/toolchain/gcc_4.9_arm32/bin:$PWD/toolchain/gcc_4.9/bin:$CLANG_DIR/bin:
 
 MAKE_ARGS="
 LLVM=1 \
+LLVM_IAS=1 \
 CC=clang \
 ARCH=arm64 \
 CROSS_COMPILE=aarch64-linux-androidkernel- \
@@ -102,7 +103,7 @@ echo "-----------------------------------------------"
 echo "Building kernel using "$KERNEL_DEFCONFIG""
 echo "Generating configuration file..."
 echo "-----------------------------------------------"
-make ${MAKE_ARGS} -j$CORES $KERNEL_DEFCONFIG extreme.config $KSU || abort
+make ${MAKE_ARGS} -j$CORES $KERNEL_DEFCONFIG chiclet.config $KSU || abort
 
 echo "Building kernel..."
 echo "-----------------------------------------------"
