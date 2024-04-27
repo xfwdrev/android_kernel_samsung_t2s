@@ -159,7 +159,7 @@ if [ -z "$RECOVERY" ]; then
     cp build/update-binary build/out/$MODEL/zip/META-INF/com/google/android/update-binary
     cp build/updater-script build/out/$MODEL/zip/META-INF/com/google/android/updater-script
 
-    version=$(grep -o 'CONFIG_LOCALVERSION="[^"]*"' arch/arm64/configs/extreme.config | cut -d '"' -f 2)
+    version=$(grep -o 'CONFIG_LOCALVERSION="[^"]*"' arch/arm64/configs/chiclet.config | cut -d '"' -f 2)
     version=${version:1}
     pushd build/out/$MODEL/zip > /dev/null
     DATE=`date +"%d-%m-%Y_%H-%M-%S"`
