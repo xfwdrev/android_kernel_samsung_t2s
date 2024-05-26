@@ -182,6 +182,9 @@ static struct miscdevice boeffla_wl_blocker_control_device = {
 
 static int __init boeffla_wl_blocker_init(void)
 {
+
+	int err = 0;
+
 	// register boeffla wakelock blocker control device
 	err = misc_register(&boeffla_wl_blocker_control_device);
 	if (err) {
